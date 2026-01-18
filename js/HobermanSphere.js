@@ -30,7 +30,7 @@ class HobermanSphere {
         // Animation state
         this.expansionFactor = 0.5; // 0 = fully contracted, 1 = fully expanded
         this.isAnimating = false;
-        this.animationSpeed = 0.3; // Speed of breathing animation
+        this.animationSpeed = 0.5; // Slower, more satisfying breathing (was 0.3)
         
         // Rotation state
         this.rotationSpeed = 0.2;
@@ -344,8 +344,11 @@ class HobermanSphere {
      */
     update(deltaTime) {
         if (this.isAnimating) {
-            // Breathing animation (expansion/contraction)
-            const breathingCycle = Math.sin(Date.now() * 0.001 * this.animationSpeed) * 0.5 + 0.5;
+            // Slow, satisfying breathing animation - FULL expansion and contraction (0 to 1)
+            // Using sine wave for smooth, natural breathing motion
+            const time = Date.now() * 0.001 * this.animationSpeed;
+            const breathingCycle = Math.sin(time) * 0.5 + 0.5; // Oscillates between 0 and 1
+            
             this.setExpansion(breathingCycle);
             
             // Rotation with changing pitch
