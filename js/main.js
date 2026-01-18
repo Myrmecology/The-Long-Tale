@@ -8,6 +8,8 @@
  * - Lighting system
  * - Hoberman Sphere
  * - Controls
+ * - Stats tracking
+ * - Post-processing effects (glow)
  * - Animation loop
  */
 
@@ -15,6 +17,17 @@
 let scene, camera, renderer;
 let hobermanSphere, controls;
 let clock;
+
+// Stats tracking
+let stats = {
+    fps: 60,
+    frameCount: 0,
+    lastTime: performance.now()
+};
+
+// Post-processing for glow effect
+let composer, bloomPass;
+let glowEnabled = false;
 
 /**
  * Initialize the entire application
@@ -43,6 +56,9 @@ function init() {
     // Initialize controls
     initControls();
     
+    // Initialize post-processing (glow effect)
+    initPostProcessing();
+    
     // Handle window resize
     window.addEventListener('resize', onWindowResize, false);
     
@@ -62,7 +78,7 @@ function initScene() {
     scene.background = new THREE.Color(0x0a0a0a);
     
     // Optional: Add fog for depth
-    scene.fog = new THREE.Fog(0x0a0a0a, 30, 100);
+    scene.fog = new THREE.Fog(0x0a0a0a, 40, 120);
 }
 
 /**
@@ -78,7 +94,7 @@ function initCamera() {
     );
     
     // Initial camera position (will be controlled by Controls)
-    camera.position.set(0, 5, 20);
+    camera.position.set(0, 5, 25);
     camera.lookAt(0, 0, 0);
 }
 
@@ -157,10 +173,10 @@ function initLighting() {
  */
 function createHobermanSphere() {
     hobermanSphere = new HobermanSphere(scene, {
-        minRadius: 2,
-        maxRadius: 8,
+        minRadius: 1.5,       // Smaller minimum for dramatic effect
+        maxRadius: 10,        // Larger maximum for FULL expansion
         strutRadius: 0.08,
-        subdivisions: 2,      // Increase for more complexity (2 = full complexity)
+        subdivisions: 2,      // Full complexity
         color: 0x00aaff,
         materialType: 'metallic'
     });
@@ -175,10 +191,75 @@ function initControls() {
     controls = new Controls(
         hobermanSphere,
         camera,
-        renderer.domElement
+        renderer.domElement,
+        scene
     );
     
     console.log('Controls initialized');
+}
+
+/**
+ * Initialize post-processing for glow effect
+ * Note: Using basic implementation since EffectComposer requires additional imports
+ */
+function initPostProcessing() {
+    // Placeholder for glow effect
+    // In a production app, you'd use THREE.EffectComposer with UnrealBloomPass
+    // For now, we'll simulate glow by increasing emissive intensity
+    glowEnabled = false;
+    console.log('Post-processing initialized (glow ready)');
+}
+
+/**
+ * Apply or remove glow effect
+ */
+function updateGlowEffect() {
+    const shouldGlow = controls.isGlowEnabled();
+    
+    if (shouldGlow !== glowEnabled) {
+        glowEnabled = shouldGlow;
+        
+        // Traverse sphere and update emissive intensity
+        hobermanSphere.getGroup().traverse((child) => {
+            if (child.isMesh && child.material) {
+                if (glowEnabled) {
+                    child.material.emissiveIntensity = 0.4;
+                } else {
+                    child.material.emissiveIntensity = 0.1;
+                }
+                child.material.needsUpdate = true;
+            }
+        });
+        
+        console.log(`Glow effect ${glowEnabled ? 'enabled' : 'disabled'}`);
+    }
+}
+
+/**
+ * Update stats display
+ */
+function updateStats() {
+    // Calculate FPS
+    stats.frameCount++;
+    const currentTime = performance.now();
+    const elapsed = currentTime - stats.lastTime;
+    
+    if (elapsed >= 1000) {
+        stats.fps = Math.round((stats.frameCount * 1000) / elapsed);
+        stats.frameCount = 0;
+        stats.lastTime = currentTime;
+        
+        // Update FPS display
+        document.getElementById('fps-value').textContent = stats.fps;
+    }
+    
+    // Update expansion percentage
+    const expansion = Math.round(hobermanSphere.getExpansionFactor() * 100);
+    document.getElementById('expansion-value').textContent = expansion + '%';
+    
+    // Update speed display
+    const speed = hobermanSphere.animationSpeed.toFixed(1);
+    document.getElementById('speed-value').textContent = speed + 'x';
 }
 
 /**
@@ -212,6 +293,12 @@ function animate() {
     if (controls) {
         controls.update(deltaTime);
     }
+    
+    // Update glow effect
+    updateGlowEffect();
+    
+    // Update stats
+    updateStats();
     
     // Render the scene
     renderer.render(scene, camera);
