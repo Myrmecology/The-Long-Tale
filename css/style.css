@@ -1,0 +1,257 @@
+/* ==================================
+   GLOBAL RESET & BASE STYLES
+   ================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+    color: #ffffff;
+}
+
+/* ==================================
+   MAIN CONTAINER
+   ================================== */
+
+#container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+#canvas-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* ==================================
+   CONTROL PANEL
+   ================================== */
+
+#control-panel {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(26, 26, 46, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 25px;
+    min-width: 280px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+#control-panel:hover {
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+#control-panel h2 {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    color: #00aaff;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+/* ==================================
+   CONTROL GROUPS
+   ================================== */
+
+.control-group {
+    margin-bottom: 20px;
+}
+
+.control-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #c0c0c0;
+    letter-spacing: 0.3px;
+}
+
+/* ==================================
+   BUTTONS
+   ================================== */
+
+.primary-btn {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: linear-gradient(135deg, #00aaff 0%, #0077cc 100%);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 170, 255, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.primary-btn:hover {
+    background: linear-gradient(135deg, #00bbff 0%, #0088dd 100%);
+    box-shadow: 0 6px 20px rgba(0, 170, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.primary-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(0, 170, 255, 0.4);
+}
+
+/* ==================================
+   COLOR PICKER
+   ================================== */
+
+#color-picker {
+    width: 100%;
+    height: 45px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: transparent;
+}
+
+#color-picker:hover {
+    border-color: #00aaff;
+    box-shadow: 0 0 15px rgba(0, 170, 255, 0.3);
+}
+
+#color-picker::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+#color-picker::-webkit-color-swatch {
+    border: none;
+    border-radius: 6px;
+}
+
+/* ==================================
+   SELECT DROPDOWN
+   ================================== */
+
+#material-type {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 0.95rem;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    padding-right: 40px;
+}
+
+#material-type:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: #00aaff;
+}
+
+#material-type:focus {
+    outline: none;
+    border-color: #00aaff;
+    box-shadow: 0 0 15px rgba(0, 170, 255, 0.3);
+}
+
+#material-type option {
+    background: #1a1a2e;
+    color: #ffffff;
+    padding: 10px;
+}
+
+/* ==================================
+   INFO SECTION
+   ================================== */
+
+.info-section {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-section p {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    color: #00aaff;
+    font-weight: 600;
+}
+
+.info-section ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.info-section li {
+    font-size: 0.85rem;
+    color: #c0c0c0;
+    margin-bottom: 6px;
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.5;
+}
+
+.info-section li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: #00aaff;
+    font-weight: bold;
+}
+
+/* ==================================
+   RESPONSIVE DESIGN
+   ================================== */
+
+@media (max-width: 768px) {
+    #control-panel {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        min-width: auto;
+        padding: 20px;
+    }
+    
+    #control-panel h2 {
+        font-size: 1.2rem;
+    }
+}
+
+/* ==================================
+   ANIMATIONS & TRANSITIONS
+   ================================== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#control-panel {
+    animation: fadeIn 0.5s ease;
+}
