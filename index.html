@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive 3D Hoberman Sphere with realistic scissor linkage mechanics">
+    <title>Hoberman Sphere - Interactive 3D Simulation</title>
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <!-- Main Container -->
+    <div id="container">
+        <!-- WebGL Canvas (created by Three.js) -->
+        <div id="canvas-container"></div>
+        
+        <!-- Control Panel -->
+        <div id="control-panel">
+            <h2>Hoberman Sphere Controls</h2>
+            
+            <!-- Start Button -->
+            <div class="control-group">
+                <button id="toggle-btn" class="primary-btn">Start Animation</button>
+            </div>
+            
+            <!-- Color Picker -->
+            <div class="control-group">
+                <label for="color-picker">Sphere Color:</label>
+                <input type="color" id="color-picker" value="#00aaff">
+            </div>
+            
+            <!-- Material Type Selector -->
+            <div class="control-group">
+                <label for="material-type">Material:</label>
+                <select id="material-type">
+                    <option value="metallic">Metallic</option>
+                    <option value="matte">Matte</option>
+                    <option value="glossy">Glossy</option>
+                </select>
+            </div>
+            
+            <!-- Info Section -->
+            <div class="info-section">
+                <p><strong>Controls:</strong></p>
+                <ul>
+                    <li>Left Click + Drag: Rotate view</li>
+                    <li>Scroll: Zoom in/out</li>
+                    <li>Button: Start/Pause animation</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript Modules -->
+    <script src="js/ScissorLink.js"></script>
+    <script src="js/HobermanSphere.js"></script>
+    <script src="js/controls.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
