@@ -17,10 +17,10 @@ class HobermanSphere {
     constructor(scene, options = {}) {
         this.scene = scene;
         
-        // Configuration
+        // Configuration - INCREASED maxRadius for MORE dramatic expansion
         this.config = {
-            minRadius: options.minRadius || 2,
-            maxRadius: options.maxRadius || 8,
+            minRadius: options.minRadius || 1.5,    // Smaller minimum for dramatic effect
+            maxRadius: options.maxRadius || 10,     // Larger maximum for FULL expansion
             strutRadius: options.strutRadius || 0.08,
             subdivisions: options.subdivisions || 2, // Icosahedron subdivisions
             color: options.color || 0x00aaff,
@@ -30,9 +30,10 @@ class HobermanSphere {
         // Animation state
         this.expansionFactor = 0.5; // 0 = fully contracted, 1 = fully expanded
         this.isAnimating = false;
-        this.animationSpeed = 0.5; // Slower, more satisfying breathing (was 0.3)
+        this.animationSpeed = 0.5; // Can be controlled by speed slider
         
         // Rotation state
+        this.autoRotate = true; // Can be toggled
         this.rotationSpeed = 0.2;
         this.pitchSpeed = 0.1;
         this.currentPitch = 0;
@@ -318,6 +319,22 @@ class HobermanSphere {
     }
     
     /**
+     * Set the animation speed
+     * @param {number} speed - Speed multiplier (0.1 to 3.0)
+     */
+    setAnimationSpeed(speed) {
+        this.animationSpeed = Math.max(0.1, Math.min(3.0, speed));
+    }
+    
+    /**
+     * Toggle auto-rotation on/off
+     * @param {boolean} enabled - Whether auto-rotation is enabled
+     */
+    setAutoRotate(enabled) {
+        this.autoRotate = enabled;
+    }
+    
+    /**
      * Start the breathing animation
      */
     startAnimation() {
@@ -339,6 +356,14 @@ class HobermanSphere {
     }
     
     /**
+     * Get current expansion factor (for stats display)
+     * @returns {number} Current expansion factor (0-1)
+     */
+    getExpansionFactor() {
+        return this.expansionFactor;
+    }
+    
+    /**
      * Update method called every frame
      * @param {number} deltaTime - Time since last frame
      */
@@ -351,13 +376,15 @@ class HobermanSphere {
             
             this.setExpansion(breathingCycle);
             
-            // Rotation with changing pitch
-            this.sphereGroup.rotation.y += this.rotationSpeed * deltaTime;
-            
-            // Update pitch angle over time
-            this.currentPitch += this.pitchSpeed * deltaTime;
-            this.sphereGroup.rotation.x = Math.sin(this.currentPitch) * 0.4;
-            this.sphereGroup.rotation.z = Math.cos(this.currentPitch * 0.7) * 0.3;
+            // Rotation with changing pitch (only if auto-rotate is enabled)
+            if (this.autoRotate) {
+                this.sphereGroup.rotation.y += this.rotationSpeed * deltaTime;
+                
+                // Update pitch angle over time
+                this.currentPitch += this.pitchSpeed * deltaTime;
+                this.sphereGroup.rotation.x = Math.sin(this.currentPitch) * 0.4;
+                this.sphereGroup.rotation.z = Math.cos(this.currentPitch * 0.7) * 0.3;
+            }
         }
     }
     
