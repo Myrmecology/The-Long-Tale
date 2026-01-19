@@ -1,4 +1,5 @@
 # Hoberman Sphere - Interactive 3D Simulation
+# FOR a video demo of this project, please visit: https://www.youtube.com/watch?v=tKCsCnQRAgs
 
 A stunning, interactive 3D Hoberman Sphere implementation using Three.js with authentic scissor linkage mechanics, realistic materials, and smooth animations.
 
